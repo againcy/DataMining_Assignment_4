@@ -1,0 +1,5 @@
+c:\users\liuyibin\documents\visual studio 2012\Projects\DataMining_Assignment_4\DataMining_Assignment_4\bin\Debug\DataMining_Assignment_4.exe
+c:\users\liuyibin\documents\visual studio 2012\Projects\DataMining_Assignment_4\DataMining_Assignment_4\bin\Debug\DataMining_Assignment_4.pdb
+c:\users\liuyibin\documents\visual studio 2012\Projects\DataMining_Assignment_4\DataMining_Assignment_4\obj\Debug\DataMining_Assignment_4.csprojResolveAssemblyReference.cache
+c:\users\liuyibin\documents\visual studio 2012\Projects\DataMining_Assignment_4\DataMining_Assignment_4\obj\Debug\DataMining_Assignment_4.exe
+c:\users\liuyibin\documents\visual studio 2012\Projects\DataMining_Assignment_4\DataMining_Assignment_4\obj\Debug\DataMining_Assignment_4.pdb
