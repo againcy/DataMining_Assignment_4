@@ -41,11 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryClassData.cs" />
-    <Compile Include="ClassificationValidator.cs" />
     <Compile Include="ClassifierTest.cs" />
     <Compile Include="PegesosClassifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UniRandomGenerator.cs" />
     <Compile Include="Vector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

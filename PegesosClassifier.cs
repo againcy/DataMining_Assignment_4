@@ -22,21 +22,19 @@ namespace DataMining_Assignment_4
        
         private BinaryClassData[] arrTrainingSet;//数组表示的训练集，方便取随机
         private int cntFeatures;//特征数
-        private int[] randomCount;//记录随机函数中一个数据被取到的次数
-        private Random rand;
-        private int maxRandomCount;
+        private UniRandomGenerator random;
+        
         private Vector W;
         /// <summary>
         /// 存储t=0.1T,0.2T,...,1T的所有W值
         /// </summary>
         public Vector[] listW;
 
-        public delegate Vector SubgradiantFunction(double innerProduction, Vector x, int label);
+        public delegate Vector SubgradiantFunction(double z, Vector x, int label);
 
         public PegesosClassifier()
         {
             trainingSet = new List<BinaryClassData>();
-            rand = new Random();
         }
 
         /// <summary>
@@ -63,21 +61,6 @@ namespace DataMining_Assignment_4
         }
 
         /// <summary>
-        /// 均匀随机数生成器
-        /// </summary>
-        /// <returns>下一个均匀随机数</returns>
-        private int GetUniformlyRandom()
-        {
-            int next = rand.Next() % trainingSet.Count;
-            while (randomCount[next] >= maxRandomCount)
-            {
-                next = rand.Next() % trainingSet.Count;
-            }
-            randomCount[next]++;
-            return next;
-        }
-
-        /// <summary>
         /// Pegesos算法执行器
         /// </summary>
         /// <param name="lambda"></param>
@@ -86,11 +69,9 @@ namespace DataMining_Assignment_4
         public void GeneratePegesos(double lambda, int T, SubgradiantFunction Subgradiant)
         {
             //随机数相关初始化
-            randomCount = new int[trainingSet.Count];
-            randomCount.Initialize();
             arrTrainingSet = trainingSet.ToArray();
-            maxRandomCount = T/arrTrainingSet.Length;
-            
+            random = new UniRandomGenerator(trainingSet.Count);
+
             listW = new Vector[10];
             //初始化w=0向量
             W = new Vector(cntFeatures);
@@ -100,10 +81,9 @@ namespace DataMining_Assignment_4
             for (int t = 1; t <= T; t++)
             {
                 double eta = 1 / (double)(lambda * t);
-               // int random = GetUniformlyRandom();
-                int random = rand.Next() % trainingSet.Count;
-                Vector X = arrTrainingSet[random].Features;
-                Vector v = Subgradiant(W * X, X, arrTrainingSet[random].TrueLabel);
+                int randNum = random.GetNext();
+                Vector X = arrTrainingSet[randNum].Features;
+                Vector v = Subgradiant(W * X, X, arrTrainingSet[randNum].TrueLabel);
                 W = (1 - eta * lambda) * W - eta * v;
                 //记录W的中间值
                 if (t>=((double)(cntT+1)/(double)10)*T)

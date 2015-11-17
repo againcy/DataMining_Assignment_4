@@ -25,6 +25,10 @@ namespace DataMining_Assignment_4
             testSet = new List<BinaryClassData>();
         }
 
+        /// <summary>
+        /// 读入测试数据
+        /// </summary>
+        /// <param name="filepath">测试数据文件路径</param>
         public void ReadTestData(string filepath)
         {
             StreamReader sr = new StreamReader(filepath);
@@ -43,10 +47,14 @@ namespace DataMining_Assignment_4
             sr.Close();
         }
 
+        /// <summary>
+        /// 应用分类器
+        /// </summary>
+        /// <param name="Classifier">分类器</param>
+        /// <param name="filepath">结果文件路径</param>
         public void ApplyClassifier(PegesosClassifier Classifier, string filepath)
         {
             StreamWriter sw = new StreamWriter(filepath);
-            ClassificationValidator validator = new ClassificationValidator();
             for (int t = 0; t < 10; t++)
             {
                 Vector w = Classifier.listW[t];
@@ -56,10 +64,24 @@ namespace DataMining_Assignment_4
                     int declaredLabel = Classifier.ApplyClassifier(data, w);
                     data.DeclaredLabel = declaredLabel;
                 }
-                double testError = validator.GetTestError(testSet);
-                sw.WriteLine("t=" + ((double)(t + 1) / (double)10).ToString("0.0") + "T : " + testError.ToString("0.000"));
+                double testError = GetTestError();
+                sw.WriteLine(((double)(t + 1) / (double)10).ToString("0.0") + "T : " + testError.ToString("0.000"));
             }
             sw.Close();
+        }
+
+        /// <summary>
+        /// 获取分类误差
+        /// </summary>
+        /// <returns></returns>
+        private double GetTestError()
+        {
+            int cntError = 0;
+            foreach (var data in testSet)
+            {
+                if (data.TrueLabel != data.DeclaredLabel) cntError++;
+            }
+            return (double)cntError / (double)testSet.Count;
         }
     }
 }
